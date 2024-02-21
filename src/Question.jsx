@@ -13,13 +13,12 @@ export default function Question() {
     setIsAnswered,
   } = useContext(QuestionsContext);
 
-  let TIMER = 5000;
+  let TIMER = 10000;
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
       if (isAnswered === false) {
         getSkippedValue();
-        TIMER = 2000;
       }
     }, TIMER);
 

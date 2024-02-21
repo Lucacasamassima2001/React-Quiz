@@ -64,18 +64,14 @@ export default function QuestionContextProvider({ children }) {
     setAnsweredQuestions((prev) => {
       return { ...prev, isStarted: true };
     });
-    console.log(answeredQuestions.isStarted);
   }
 
   function restartQuiz() {
     setAnsweredQuestions((prev) => {
       return { ...prev, answered: [], isStarted: false };
     });
-
     setActiveQuestion(0);
     setIsAnswered(false);
-
-    console.log(answeredQuestions.isStarted);
   }
 
   const qtxValue = {
