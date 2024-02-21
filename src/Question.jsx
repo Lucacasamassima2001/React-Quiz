@@ -50,6 +50,7 @@ export default function Question() {
       </div>
       <div id="skip-action">
         <button
+          disabled={isAnswered ? true : false}
           onClick={() => {
             getSkippedValue(), setActiveQuestion((prev) => prev + 1);
           }}
