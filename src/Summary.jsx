@@ -17,6 +17,13 @@ export default function Summary() {
     <div id="summary">
       <img src="/public/quiz-complete.png" alt="" />
       <h2>Quiz completed!</h2>
+      <span>
+        {correctArray.length > 4
+          ? "Not bad at all!"
+          : correctArray.length > 2
+          ? "Focus more!"
+          : "Try again"}
+      </span>
       <div id="summary-stats">
         <p>
           <span className="number">
