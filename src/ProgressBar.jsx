@@ -1,25 +1,36 @@
 import { useState, useEffect, useContext } from "react";
 import { QuestionsContext } from "./QuestionContextProvider";
 
-export default function ProgressBar({ TIMER }) {
+export default function ProgressBar({ TIMER, question }) {
   const [remainingTime, setRemainingTime] = useState(TIMER);
   const { isAnswered } = useContext(QuestionsContext);
 
   useEffect(() => {
+    if (isAnswered) {
+      setRemainingTime(3000);
+    } else {
+      setRemainingTime(TIMER);
+    }
+
     const interval = setInterval(() => {
       setRemainingTime((prev) => prev - 10);
     }, 10);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [question, TIMER, isAnswered]);
 
   useEffect(() => {
     if (remainingTime === 0) {
       setRemainingTime(TIMER);
     }
-    if (isAnswered) {
-      setRemainingTime(TIMER);
-    }
-  }, [remainingTime, TIMER, isAnswered]);
-  return <progress value={remainingTime} max={TIMER} />;
+  }, [remainingTime, TIMER]);
+
+  return (
+    <progress
+      id="progress"
+      className={isAnswered ? "answered" : null}
+      value={remainingTime}
+      max={isAnswered ? 3000 : TIMER}
+    />
+  );
 }

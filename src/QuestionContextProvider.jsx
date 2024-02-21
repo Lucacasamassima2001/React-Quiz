@@ -12,6 +12,8 @@ export const QuestionsContext = createContext({
   setIsAnswered: () => {},
   startQuiz: () => {},
   restartQuiz: () => {},
+  setActiveQuestion: () => {},
+  isAnswered: false,
 });
 
 export default function QuestionContextProvider({ children }) {
@@ -39,7 +41,6 @@ export default function QuestionContextProvider({ children }) {
         },
       ],
     });
-    setActiveQuestion(activeQuestion + 1);
   };
 
   // function to pick skipped answer
@@ -57,7 +58,6 @@ export default function QuestionContextProvider({ children }) {
         },
       ],
     });
-    setActiveQuestion(activeQuestion + 1);
   }
 
   function startQuiz() {
@@ -85,6 +85,8 @@ export default function QuestionContextProvider({ children }) {
     setIsAnswered: setIsAnswered,
     startQuiz: startQuiz,
     restartQuiz: restartQuiz,
+    setActiveQuestion: setActiveQuestion,
+    isAnswered: isAnswered,
   };
   return (
     <QuestionsContext.Provider value={qtxValue}>

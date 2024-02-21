@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import Answers from "./Answers";
 import ProgressBar from "./ProgressBar";
 import { QuestionsContext } from "./QuestionContextProvider";
+let TIMER = 10000;
 
 export default function Question() {
   const {
@@ -11,29 +12,35 @@ export default function Question() {
     getSkippedValue,
     isAnswered,
     setIsAnswered,
+    setActiveQuestion,
   } = useContext(QuestionsContext);
-
-  let TIMER = 10000;
+  const question = questions[activeQuestion];
+  console.log(isAnswered);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
-      if (isAnswered === false) {
-        getSkippedValue();
-      }
+      getSkippedValue();
+      setActiveQuestion((prev) => prev + 1);
     }, TIMER);
 
+    if (isAnswered === false) {
+      TIMER = 10000;
+    }
+    if (isAnswered === true) {
+      TIMER = 1000;
+    }
     return () => {
       clearTimeout(timeOut);
       setIsAnswered(false);
     };
-  }, [activeQuestion, getSkippedValue, isAnswered, setIsAnswered]);
+  }, [TIMER, isAnswered, setIsAnswered]);
 
   return (
     <div id="#question-overview">
       <div id="question">
-        {<ProgressBar TIMER={TIMER} />}
+        {<ProgressBar TIMER={TIMER} question={question} />}
         <h2>{questions[activeQuestion].text}</h2>
-        <Answers onChangeQuestion={getAnswerValue} />
+        <Answers onChangeQuestion={getAnswerValue} TIMER={TIMER} />
       </div>
     </div>
   );
