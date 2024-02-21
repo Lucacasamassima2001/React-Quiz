@@ -1,7 +1,8 @@
 import { useContext } from "react";
 import { QuestionsContext } from "./QuestionContextProvider";
 export default function Summary() {
-  const { answeredQuestions, questions } = useContext(QuestionsContext);
+  const { answeredQuestions, questions, restartQuiz } =
+    useContext(QuestionsContext);
   const skippedArray = answeredQuestions.answered.filter(
     (answer) => answer.result === "skipped"
   );
@@ -47,6 +48,9 @@ export default function Summary() {
           </li>
         ))}
       </ol>
+      <div className="start-quiz">
+        <button onClick={restartQuiz}>Restart Quiz!</button>
+      </div>
     </div>
   );
 }

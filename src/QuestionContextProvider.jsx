@@ -10,11 +10,13 @@ export const QuestionsContext = createContext({
   getSkippedValue: () => {},
   correctAnswers: [],
   setIsAnswered: () => {},
-  setActiveQuestion: () => {},
+  startQuiz: () => {},
+  restartQuiz: () => {},
 });
 
 export default function QuestionContextProvider({ children }) {
   const [answeredQuestions, setAnsweredQuestions] = useState({
+    isStarted: false,
     answered: [],
   });
   const [activeQuestion, setActiveQuestion] = useState(0);
@@ -58,6 +60,24 @@ export default function QuestionContextProvider({ children }) {
     setActiveQuestion(activeQuestion + 1);
   }
 
+  function startQuiz() {
+    setAnsweredQuestions((prev) => {
+      return { ...prev, isStarted: true };
+    });
+    console.log(answeredQuestions.isStarted);
+  }
+
+  function restartQuiz() {
+    setAnsweredQuestions((prev) => {
+      return { ...prev, answered: [], isStarted: false };
+    });
+
+    setActiveQuestion(0);
+    setIsAnswered(false);
+
+    console.log(answeredQuestions.isStarted);
+  }
+
   const qtxValue = {
     questions: questions,
     activeQuestion: activeQuestion,
@@ -67,6 +87,8 @@ export default function QuestionContextProvider({ children }) {
     correctAnswers: correctAnswers,
     isAnswered: isAnswered,
     setIsAnswered: setIsAnswered,
+    startQuiz: startQuiz,
+    restartQuiz: restartQuiz,
   };
   return (
     <QuestionsContext.Provider value={qtxValue}>

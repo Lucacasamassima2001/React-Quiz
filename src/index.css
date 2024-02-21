@@ -334,3 +334,21 @@ header h1 {
     transform: translateY(0);
   }
 }
+
+.start-quiz {
+  display: flex;
+  justify-content: center;
+}
+
+.start-quiz > button {
+  font-size: 2rem;
+  border-radius: 20px;
+  background-color: transparent;
+  color: #9c7fd3;
+  padding: 1rem;
+  border: none;
+  &:hover {
+    cursor: pointer;
+    font-size: 2.3rem;
+  }
+}
