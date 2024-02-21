@@ -23,17 +23,11 @@ export default function Question() {
       setActiveQuestion((prev) => prev + 1);
     }, TIMER);
 
-    if (isAnswered === false) {
-      TIMER = 10000;
-    }
-    if (isAnswered === true) {
-      TIMER = 1000;
-    }
     return () => {
       clearTimeout(timeOut);
       setIsAnswered(false);
     };
-  }, [TIMER, isAnswered, setIsAnswered]);
+  }, [TIMER, isAnswered, setIsAnswered, getSkippedValue]);
 
   return (
     <div id="#question-overview">

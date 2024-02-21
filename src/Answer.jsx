@@ -29,7 +29,7 @@ export default function Answer({ answer, onChange, TIMER }) {
       if (isAnswered === false) {
         cleanButtonColor();
       }
-    }, 1000);
+    }, 200);
     return () => {
       clearTimeout(timer);
     };

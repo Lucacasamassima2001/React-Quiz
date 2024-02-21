@@ -41,6 +41,7 @@ export default function QuestionContextProvider({ children }) {
         },
       ],
     });
+    setActiveQuestion((prev) => prev + 1);
   };
 
   // function to pick skipped answer
