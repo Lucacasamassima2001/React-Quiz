@@ -48,6 +48,15 @@ export default function Question() {
         <h2>{questions[activeQuestion].text}</h2>
         <Answers onChangeQuestion={getAnswerValue} TIMER={TIMER} />
       </div>
+      <div id="skip-action">
+        <button
+          onClick={() => {
+            getSkippedValue(), setActiveQuestion((prev) => prev + 1);
+          }}
+        >
+          Skip
+        </button>
+      </div>
     </div>
   );
 }
