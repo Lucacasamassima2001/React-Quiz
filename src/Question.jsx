@@ -18,14 +18,27 @@ export default function Question() {
   console.log(isAnswered);
 
   useEffect(() => {
-    const timeOut = setTimeout(() => {
-      getSkippedValue();
-      setActiveQuestion((prev) => prev + 1);
-    }, TIMER);
+    if (!isAnswered) {
+      const timeOut = setTimeout(() => {
+        getSkippedValue();
+        setActiveQuestion((prev) => prev + 1);
+      }, TIMER);
+      return () => clearTimeout(timeOut);
+    }
+
+    if (isAnswered) {
+      const timeOut = setTimeout(() => {
+        setActiveQuestion((prev) => prev + 1);
+      }, 3000);
+      return () => {
+        clearTimeout(timeOut);
+        setIsAnswered(false);
+      };
+    }
 
     return () => {
-      clearTimeout(timeOut);
       setIsAnswered(false);
+      TIMER = 10000;
     };
   }, [TIMER, isAnswered, setIsAnswered, getSkippedValue]);
 

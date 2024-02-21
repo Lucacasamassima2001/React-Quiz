@@ -2,7 +2,7 @@ import { useContext, useRef, useEffect } from "react";
 import { QuestionsContext } from "./QuestionContextProvider";
 import questions from "./questions";
 export default function Answer({ answer, onChange, TIMER }) {
-  const { activeQuestion, correctAnswers, isAnswered } =
+  const { activeQuestion, correctAnswers, isAnswered, answeredQuestions } =
     useContext(QuestionsContext);
   const buttonColor = useRef();
 
@@ -11,12 +11,6 @@ export default function Answer({ answer, onChange, TIMER }) {
       buttonColor.current.className = "correct";
     } else {
       buttonColor.current.className = "wrong";
-    }
-  };
-
-  const checkifButtonIsSelected = (answer) => {
-    if (answer) {
-      buttonColor.current.className = "selected";
     }
   };
 
@@ -38,7 +32,7 @@ export default function Answer({ answer, onChange, TIMER }) {
   return (
     <li className="answer">
       <button
-        disabled={TIMER === 1000 ? true : false}
+        disabled={isAnswered ? true : false}
         ref={buttonColor}
         className={buttonColor}
         onClick={() => {
