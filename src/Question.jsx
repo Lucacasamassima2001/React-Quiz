@@ -15,7 +15,6 @@ export default function Question() {
     setActiveQuestion,
   } = useContext(QuestionsContext);
   const question = questions[activeQuestion];
-  console.log(isAnswered);
 
   useEffect(() => {
     if (!isAnswered) {
