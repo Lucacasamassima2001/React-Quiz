@@ -28,7 +28,6 @@ export default function ProgressBar({ TIMER, question }) {
   return (
     <progress
       id="progress"
-      className={isAnswered ? "answered" : null}
       value={remainingTime}
       max={isAnswered ? 3000 : TIMER}
     />
