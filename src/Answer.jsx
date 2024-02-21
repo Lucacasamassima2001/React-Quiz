@@ -1,8 +1,7 @@
 import { useContext, useRef, useEffect } from "react";
 import { QuestionsContext } from "./QuestionContextProvider";
-import questions from "./questions";
-export default function Answer({ answer, onChange, TIMER }) {
-  const { activeQuestion, correctAnswers, isAnswered, answeredQuestions } =
+export default function Answer({ answer, onChange }) {
+  const { activeQuestion, correctAnswers, isAnswered } =
     useContext(QuestionsContext);
   const buttonColor = useRef();
 

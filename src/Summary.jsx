@@ -13,6 +13,11 @@ export default function Summary() {
     (answer) => answer.result === "correct"
   );
 
+  const removeLetterFromId = (id) => {
+    return id.replace("q", "");
+  };
+
+  console.log(answeredQuestions);
   return (
     <div id="summary">
       <img src="/public/quiz-complete.png" alt="" />
@@ -47,7 +52,7 @@ export default function Summary() {
       <ol>
         {answeredQuestions.answered.map((answer, index) => (
           <li key={index}>
-            <h3>{answer.questionId}</h3>
+            <h3> {removeLetterFromId(answer.questionId)}</h3>
             <div className="question">{answer.question}</div>
             <div className={`user-answer ${answer.result}`}>
               {answer.answer}
