@@ -17,7 +17,6 @@ export default function Summary() {
     return id.replace("q", "");
   };
 
-  console.log(answeredQuestions);
   return (
     <div id="summary">
       <img src="/public/quiz-complete.png" alt="" />
