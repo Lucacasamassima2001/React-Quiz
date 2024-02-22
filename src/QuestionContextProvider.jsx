@@ -12,16 +12,16 @@ export const QuestionsContext = createContext({
   setIsAnswered: () => {},
   startQuiz: () => {},
   restartQuiz: () => {},
-  setActiveQuestion: () => {},
+  setAnsweredQuestions: () => {},
   isAnswered: false,
 });
 
 export default function QuestionContextProvider({ children }) {
   const [answeredQuestions, setAnsweredQuestions] = useState({
+    activeQuestion: 0,
     isStarted: false,
     answered: [],
   });
-  const [activeQuestion, setActiveQuestion] = useState(0);
   const [isAnswered, setIsAnswered] = useState(false);
   // function to pick answer
   const getAnswerValue = (answer) => {
@@ -31,11 +31,12 @@ export default function QuestionContextProvider({ children }) {
       answered: [
         ...answeredQuestions.answered,
         {
-          question: questions[activeQuestion].text,
-          questionId: questions[activeQuestion].id,
+          question: questions[answeredQuestions.activeQuestion].text,
+          questionId: questions[answeredQuestions.activeQuestion].id,
           answer: answer,
           result:
-            correctAnswers[activeQuestion].correctAnswer === answer
+            correctAnswers[answeredQuestions.activeQuestion].correctAnswer ===
+            answer
               ? "correct"
               : "wrong",
         },
@@ -51,8 +52,8 @@ export default function QuestionContextProvider({ children }) {
       answered: [
         ...answeredQuestions.answered,
         {
-          question: questions[activeQuestion].text,
-          questionId: questions[activeQuestion].id,
+          question: questions[answeredQuestions.activeQuestion].text,
+          questionId: questions[answeredQuestions.activeQuestion].id,
           answer: "skipped",
           result: "skipped",
         },
@@ -68,15 +69,15 @@ export default function QuestionContextProvider({ children }) {
 
   function restartQuiz() {
     setAnsweredQuestions((prev) => {
-      return { ...prev, answered: [], isStarted: false };
+      return { ...prev, answered: [], isStarted: false, activeQuestion: 0 };
     });
-    setActiveQuestion(0);
+
     setIsAnswered(false);
   }
 
   const qtxValue = {
     questions: questions,
-    activeQuestion: activeQuestion,
+    activeQuestion: answeredQuestions.activeQuestion,
     answeredQuestions: answeredQuestions,
     getAnswerValue: getAnswerValue,
     getSkippedValue: getSkippedValue,
@@ -85,7 +86,7 @@ export default function QuestionContextProvider({ children }) {
     setIsAnswered: setIsAnswered,
     startQuiz: startQuiz,
     restartQuiz: restartQuiz,
-    setActiveQuestion: setActiveQuestion,
+    setAnsweredQuestions: setAnsweredQuestions,
     isAnswered: isAnswered,
   };
   return (

@@ -13,6 +13,7 @@ export default function Question() {
     isAnswered,
     setIsAnswered,
     setActiveQuestion,
+    setAnsweredQuestions,
   } = useContext(QuestionsContext);
   const question = questions[activeQuestion];
 
@@ -20,14 +21,24 @@ export default function Question() {
     if (!isAnswered) {
       const timeOut = setTimeout(() => {
         getSkippedValue();
-        setActiveQuestion((prev) => prev + 1);
+        setAnsweredQuestions((prev) => {
+          return {
+            ...prev,
+            activeQuestion: activeQuestion + 1,
+          };
+        });
       }, TIMER);
       return () => clearTimeout(timeOut);
     }
 
     if (isAnswered) {
       const timeOut = setTimeout(() => {
-        setActiveQuestion((prev) => prev + 1);
+        setAnsweredQuestions((prev) => {
+          return {
+            ...prev,
+            activeQuestion: activeQuestion + 1,
+          };
+        });
       }, 3000);
       return () => {
         clearTimeout(timeOut);
@@ -52,7 +63,13 @@ export default function Question() {
         <button
           disabled={isAnswered ? true : false}
           onClick={() => {
-            getSkippedValue(), setActiveQuestion((prev) => prev + 1);
+            getSkippedValue(),
+              setAnsweredQuestions((prev) => {
+                return {
+                  ...prev,
+                  activeQuestion: activeQuestion + 1,
+                };
+              });
           }}
         >
           Skip
