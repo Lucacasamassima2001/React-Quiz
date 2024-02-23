@@ -1,4 +1,5 @@
-export default [
+import correctAnswers from "../correctAnswers";
+export const questions = [
   {
     id: "q1",
     text: "Which of the following definitions best describes React.js?",
@@ -70,3 +71,19 @@ export default [
     ],
   },
 ];
+
+export const correctQuestions = questions.map((question, index) => {
+  return {
+    ...question,
+    correctAnswer: correctAnswers[index].correctAnswer,
+  };
+});
+
+export const shuffledQuestions = correctQuestions
+  .sort(() => Math.random() - 0.5)
+  .map((question) => {
+    return {
+      ...question,
+      answers: question.answers.sort(() => Math.random() - 0.5),
+    };
+  });

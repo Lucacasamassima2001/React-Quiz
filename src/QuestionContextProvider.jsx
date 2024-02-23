@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { useState } from "react";
-import questions from "./questions";
+import { questions } from "./questions";
 import correctAnswers from "../correctAnswers";
 export const QuestionsContext = createContext({
   questions: [],
