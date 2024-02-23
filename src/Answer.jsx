@@ -1,26 +1,14 @@
 import { useContext, useRef, useEffect } from "react";
 import { QuestionsContext } from "./QuestionContextProvider";
-export default function Answer({ answer, onChange }) {
-  const { activeQuestion, correctAnswers, isAnswered } =
+export default function Answer({ answer }) {
+  const { isAnswered, CheckAnswer, getAnswerValue, CleanButton } =
     useContext(QuestionsContext);
   const buttonColor = useRef();
-
-  const checkifAnswerIsCorrect = (answer) => {
-    if (answer === correctAnswers[activeQuestion].correctAnswer) {
-      buttonColor.current.className = "correct";
-    } else {
-      buttonColor.current.className = "wrong";
-    }
-  };
-
-  function cleanButtonColor() {
-    buttonColor.current.className = "";
-  }
 
   useEffect(() => {
     const timer = setTimeout(() => {
       if (isAnswered === false) {
-        cleanButtonColor();
+        CleanButton(buttonColor);
       }
     }, 200);
     return () => {
@@ -35,8 +23,8 @@ export default function Answer({ answer, onChange }) {
         ref={buttonColor}
         className={buttonColor}
         onClick={() => {
-          checkifAnswerIsCorrect(answer);
-          onChange(answer);
+          CheckAnswer(answer, buttonColor);
+          getAnswerValue(answer);
         }}
       >
         {answer}

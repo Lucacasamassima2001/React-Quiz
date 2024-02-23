@@ -1,4 +1,4 @@
-import { createContext, useCallback } from "react";
+import { createContext } from "react";
 import { useState } from "react";
 import questions from "./questions";
 import correctAnswers from "../correctAnswers";
@@ -14,6 +14,8 @@ export const QuestionsContext = createContext({
   restartQuiz: () => {},
   setAnsweredQuestions: () => {},
   isAnswered: false,
+  CheckAnswer: () => {},
+  CleanButton: () => {},
 });
 
 export default function QuestionContextProvider({ children }) {
@@ -23,6 +25,7 @@ export default function QuestionContextProvider({ children }) {
     answered: [],
   });
   const [isAnswered, setIsAnswered] = useState(false);
+
   // function to pick answer
   const getAnswerValue = (answer) => {
     setIsAnswered(true);
@@ -45,7 +48,6 @@ export default function QuestionContextProvider({ children }) {
   };
 
   // function to pick skipped answer
-
   function getSkippedValue() {
     setAnsweredQuestions({
       ...answeredQuestions,
@@ -61,33 +63,51 @@ export default function QuestionContextProvider({ children }) {
     });
   }
 
+  // function to start Quiz
   function startQuiz() {
     setAnsweredQuestions((prev) => {
       return { ...prev, isStarted: true };
     });
   }
 
+  // function to restart Quiz
   function restartQuiz() {
     setAnsweredQuestions((prev) => {
       return { ...prev, answered: [], isStarted: false, activeQuestion: 0 };
     });
-
     setIsAnswered(false);
   }
 
+  // function to check if answer is correct
+  const checkifAnswerIsCorrect = (answer, buttonColor) => {
+    if (
+      answer === correctAnswers[answeredQuestions.activeQuestion].correctAnswer
+    ) {
+      buttonColor.current.className = "correct";
+    } else {
+      buttonColor.current.className = "wrong";
+    }
+  };
+
+  // function to clean buttonColor
+  const cleanButtonColor = (buttonColor) => {
+    buttonColor.current.className = "";
+  };
+
   const qtxValue = {
     questions: questions,
+    correctAnswers: correctAnswers,
     activeQuestion: answeredQuestions.activeQuestion,
     answeredQuestions: answeredQuestions,
+    setAnsweredQuestions: setAnsweredQuestions,
     getAnswerValue: getAnswerValue,
     getSkippedValue: getSkippedValue,
-    correctAnswers: correctAnswers,
-    isAnswered: isAnswered,
     setIsAnswered: setIsAnswered,
+    isAnswered: isAnswered,
     startQuiz: startQuiz,
     restartQuiz: restartQuiz,
-    setAnsweredQuestions: setAnsweredQuestions,
-    isAnswered: isAnswered,
+    CheckAnswer: checkifAnswerIsCorrect,
+    CleanButton: cleanButtonColor,
   };
   return (
     <QuestionsContext.Provider value={qtxValue}>

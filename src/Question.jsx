@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import Answers from "./Answers";
 import ProgressBar from "./ProgressBar";
 import { QuestionsContext } from "./QuestionContextProvider";
@@ -8,14 +8,11 @@ export default function Question() {
   const {
     questions,
     activeQuestion,
-    getAnswerValue,
     getSkippedValue,
     isAnswered,
     setIsAnswered,
-    setActiveQuestion,
     setAnsweredQuestions,
   } = useContext(QuestionsContext);
-  const question = questions[activeQuestion];
 
   useEffect(() => {
     if (!isAnswered) {
@@ -55,9 +52,9 @@ export default function Question() {
   return (
     <div id="#question-overview">
       <div id="question">
-        {<ProgressBar TIMER={TIMER} question={question} />}
+        {<ProgressBar TIMER={TIMER} question={questions[activeQuestion]} />}
         <h2>{questions[activeQuestion].text}</h2>
-        <Answers onChangeQuestion={getAnswerValue} TIMER={TIMER} />
+        <Answers />
       </div>
       <div id="skip-action">
         <button

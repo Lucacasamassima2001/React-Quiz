@@ -3,6 +3,7 @@ import { QuestionsContext } from "./QuestionContextProvider";
 export default function Summary() {
   const { answeredQuestions, questions, restartQuiz } =
     useContext(QuestionsContext);
+
   const skippedArray = answeredQuestions.answered.filter(
     (answer) => answer.result === "skipped"
   );
