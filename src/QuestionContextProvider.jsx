@@ -14,8 +14,10 @@ export const QuestionsContext = createContext({
   restartQuiz: () => {},
   setAnsweredQuestions: () => {},
   isAnswered: false,
-  CheckAnswer: () => {},
+  selectAnswer: () => {},
   CleanButton: () => {},
+  lastTry: false,
+  setLastTry: () => {},
 });
 
 export default function QuestionContextProvider({ children }) {
@@ -25,6 +27,7 @@ export default function QuestionContextProvider({ children }) {
     answered: [],
   });
   const [isAnswered, setIsAnswered] = useState(false);
+  const [lastTry, setLastTry] = useState(false);
 
   // function to pick answer
   const getAnswerValue = (answer) => {
@@ -79,13 +82,9 @@ export default function QuestionContextProvider({ children }) {
   }
 
   // function to check if answer is correct
-  const checkifAnswerIsCorrect = (answer, buttonColor) => {
-    if (
-      answer === correctAnswers[answeredQuestions.activeQuestion].correctAnswer
-    ) {
-      buttonColor.current.className = "correct";
-    } else {
-      buttonColor.current.className = "wrong";
+  const checkIfAnswerIsSelected = (answer, buttonColor) => {
+    if (answer) {
+      buttonColor.current.className = "selected";
     }
   };
 
@@ -106,8 +105,10 @@ export default function QuestionContextProvider({ children }) {
     isAnswered: isAnswered,
     startQuiz: startQuiz,
     restartQuiz: restartQuiz,
-    CheckAnswer: checkifAnswerIsCorrect,
+    selectAnswer: checkIfAnswerIsSelected,
     CleanButton: cleanButtonColor,
+    lastTry: lastTry,
+    setLastTry: setLastTry,
   };
   return (
     <QuestionsContext.Provider value={qtxValue}>

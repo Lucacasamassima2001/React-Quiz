@@ -1,16 +1,33 @@
-import { useContext, useRef, useEffect } from "react";
+import { useContext, useRef, useEffect, useState } from "react";
 import { QuestionsContext } from "./QuestionContextProvider";
 export default function Answer({ answer }) {
-  const { isAnswered, CheckAnswer, getAnswerValue, CleanButton } =
-    useContext(QuestionsContext);
+  const {
+    isAnswered,
+    selectAnswer,
+    getAnswerValue,
+    CleanButton,
+    lastTry,
+    correctAnswers,
+    activeQuestion,
+  } = useContext(QuestionsContext);
   const buttonColor = useRef();
+  const [selectedAnswer, setSelectedAnswer] = useState({
+    selectAnswer: "",
+    isCorrect: null,
+  });
 
   useEffect(() => {
     const timer = setTimeout(() => {
       if (isAnswered === false) {
         CleanButton(buttonColor);
       }
-    }, 200);
+      if (lastTry === true) {
+        setSelectedAnswer({
+          selectAnswer: "",
+          isCorrect: null,
+        });
+      }
+    }, 2000);
     return () => {
       clearTimeout(timer);
     };
@@ -19,11 +36,18 @@ export default function Answer({ answer }) {
   return (
     <li className="answer">
       <button
-        disabled={isAnswered ? true : false}
+        disabled={isAnswered || lastTry ? true : false}
         ref={buttonColor}
-        className={buttonColor}
+        className={lastTry ? selectedAnswer.isCorrect : ""}
         onClick={() => {
-          CheckAnswer(answer, buttonColor);
+          setSelectedAnswer({
+            selectAnswer: answer,
+            isCorrect:
+              answer === correctAnswers[activeQuestion].correctAnswer
+                ? "correct"
+                : "wrong",
+          });
+          selectAnswer(answer, buttonColor);
           getAnswerValue(answer);
         }}
       >

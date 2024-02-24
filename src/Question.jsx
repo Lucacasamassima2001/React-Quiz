@@ -12,10 +12,12 @@ export default function Question() {
     isAnswered,
     setIsAnswered,
     setAnsweredQuestions,
+    lastTry,
+    setLastTry,
   } = useContext(QuestionsContext);
 
   useEffect(() => {
-    if (!isAnswered) {
+    if (!isAnswered && !lastTry) {
       const timeOut = setTimeout(() => {
         getSkippedValue();
         setAnsweredQuestions((prev) => {
@@ -30,24 +32,35 @@ export default function Question() {
 
     if (isAnswered) {
       const timeOut = setTimeout(() => {
+        setLastTry(true);
+      }, 2000);
+      return () => {
+        setIsAnswered(false);
+        clearTimeout(timeOut);
+      };
+    }
+
+    if (lastTry) {
+      const timeOut = setTimeout(() => {
         setAnsweredQuestions((prev) => {
           return {
             ...prev,
             activeQuestion: activeQuestion + 1,
           };
         });
-      }, 3000);
+      }, 2000);
       return () => {
+        setLastTry(false);
         clearTimeout(timeOut);
-        setIsAnswered(false);
       };
     }
 
     return () => {
+      setLastTry(false);
       setIsAnswered(false);
       TIMER = 10000;
     };
-  }, [TIMER, isAnswered, setIsAnswered, getSkippedValue]);
+  }, [TIMER, isAnswered, setIsAnswered, getSkippedValue, lastTry, setLastTry]);
 
   return (
     <div id="#question-overview">
